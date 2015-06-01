@@ -1,4 +1,10 @@
-﻿namespace TextTonality
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TextTonality
 {
     class Text
     {
@@ -11,17 +17,19 @@
             numberOfText = -1;
         }
 
-        public Text(string text, int number)
+        public Text(string _text, int number)
         {
             if (number < 0)
             {
-                this.text = "";
+                text = "";
                 numberOfText = -1;
                 return;
             }
 
-            this.text = text;
+            text = _text;
             numberOfText = number;
         }
+
+
     }
 }

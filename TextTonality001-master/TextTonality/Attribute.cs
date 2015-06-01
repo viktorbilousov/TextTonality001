@@ -9,7 +9,6 @@ namespace TextTonality
     internal class Attribute
     {
         private bool needCalcWeight = true;
-        private bool needRecognizeClass = false;
 
         public string word;
         public float[] weight; // вектор веса текста в j-м классе текста
@@ -40,7 +39,7 @@ namespace TextTonality
 
         /// <summary>Создает атрибут </summary>
         /// <param name = "Word">Текст слова</param>
-        /// <param name = "Weight">Вес слова в классе <para>Value</para> </param>
+        /// <param name = "Weight">Вес слова в класе <para>Value</para> </param>
         /// <param name="value">Класс атрибута(текста)</param>
         public Attribute(string Word, float Weight, ClassTypeValue value)
         {
@@ -57,12 +56,13 @@ namespace TextTonality
 
         /// <summary>Создает атрибут с пустым весом </summary>
         /// <param name = "Word">Текст слова</param>
+        /// <param name = "Weight">Вес слова в класе <para>Value</para> </param>
         /// <param name="value">Класс атрибута(текста)</param>
         public Attribute(string Word, ClassTypeValue value)
         {
             Init();
 
-           this.word = Word;
+            this.word = Word;
             count[(int)value] = 1;
             weight[(int)value] = float.NaN;
         }
@@ -70,8 +70,8 @@ namespace TextTonality
         /// <summary>Создает атрибут </summary>
         /// <param name = "Word">Текст слова</param>
         /// <param name = "_Weight">Вес слова во всех класах</para> </param>
-        /// <param name = "_isInText">вектор соответствия слов в тексте</para> </param>
-        public Attribute(string Word, float[] _Weight, List<bool> _isInText )
+
+        public Attribute(string Word, float[] _Weight)
         {
             Init();
 
@@ -82,36 +82,9 @@ namespace TextTonality
             }
 
             this.word = Word;
-            this.isInText = _isInText;
+
             needCalcWeight = false;
         }
-        /// <summary>
-        /// Создает Атрибут, класс которого надо определить
-        /// </summary>
-        /// <param name="Word">Текст слова</param>
-        public Attribute(string Word)
-        {
-
-            int UndefCnt = 1;
-            
-            weight = new float[UndefCnt];
-            count = new int[UndefCnt];
-            isInText = new List<bool>();
-            isInText.Add(true);
-
-            for (int i = 0; i < UndefCnt; i++)
-            {
-                weight[i] = float.NaN;
-                count[i] = 0;
-
-            }
-            
-            word = Word;
-            needRecognizeClass = true;
-            needCalcWeight = true;
-
-        }
-
 
         private void Init()
         {
@@ -131,10 +104,7 @@ namespace TextTonality
         /// <param name="value">Класс атрибута(текста)</param>
         public void incrementCnt(ClassTypeValue value)
         {
-            if (value == ClassTypeValue.Unknown)
-                count[0]++;
-            else
-                count[(int)value]++;
+            count[(int)value]++;
         }
 
         /// <summary>Калькулирует глобальный вес слова в классах</summary>
@@ -146,18 +116,10 @@ namespace TextTonality
              * (но надо попробывать другие )
              */
 
-            if (needRecognizeClass)
-            {
-                CalcUndefClass();
-                return;
-            }
-
-
             const int CoefNorm = 1;
 
             // todo : сделать конусиносную нормализацию 
-            // todo : http://habrahabr.ru/post/149605/ взять оттуда вес для бинарнго класса
-            
+
             int sumCnt = 0;
             foreach (int cnt in count)
                 sumCnt += cnt;
@@ -172,11 +134,6 @@ namespace TextTonality
 
                 weight[i] = (float)Math.Log(2 + tmp, 2) * CoefNorm; // RF метод  
             }
-        }
-
-        private void CalcUndefClass()
-        {
-            weight[0] = (float)(Math.Log(2 + count[0],2));
         }
 
 
@@ -221,22 +178,6 @@ namespace TextTonality
                 return true;
 
             return false;
-        }
-
-        public void clearAllWeight()
-        {
-            for (int i = 0; i < weight.Length; i++)
-            {
-                weight[i] = float.NaN;
-            }
-        }
-
-        public void resetAllCnt()
-        {
-            for (int i = 0; i < count.Length; i++)
-            {
-                count[i] = 1;
-            }
         }
     }
 

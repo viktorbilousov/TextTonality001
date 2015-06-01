@@ -1,33 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TextTonality
 {
+
     /// <summary>
     /// Разделяет текст на слова
     /// </summary>
-    static class TextParser
+    static class ParserText
     {
-        private static char[] unreadableSymbols = ".,\"?\':()1234567890«»[]-\r\t\n=+*;!|—".ToArray();
+
+        private static string unreadableSymbols = ".,\"?\':()1234567890«»[]-\r\t\n=+*;!|—";
         private static string EndTextString = @"<\end>";
         public static int numberOfText = 0;
 
         public static bool Parse(string input, ref List<Text> output)
         {
+
+            string word = "";
+            bool lastText = false;
             if (input == "")
                 return false;
 
-            var word = "";
-            var needIncrementNumber = false;
+            bool NeedIncrementNumber = false;
 
             input = input.ToLower();
             numberOfText++;
 
             for (int i = 0; i < input.Length; i++)
             {
-                if (unreadableSymbols.Contains(input[i]))
-                    continue;
                 
+                bool flag = false;
+                foreach (char symbol in unreadableSymbols)
+                {
+                    char s = input[i];
+                    if (input[i] == symbol)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag)
+                    continue;
+
+
+
                 if (input[i] == ' ')
                 {
                     if (word == "")
@@ -35,7 +55,8 @@ namespace TextTonality
 
                     if (word == EndTextString)
                     {
-                        needIncrementNumber = true;
+                        //numberOfText ++;
+                        NeedIncrementNumber = true;
                         word = "";
                         continue;
                     }
@@ -46,20 +67,23 @@ namespace TextTonality
                     continue;
                 }
                 word += input[i];
-                if (needIncrementNumber) // иначе может прибавить из-за слов, состоящие только из знаков изключеня "1232425"
+                if (NeedIncrementNumber) // иначе может прибавить из-за слов, состоящие только из знаков изключеня "1232425"
                 {
-                    needIncrementNumber = false;
+                    NeedIncrementNumber = false;
                     numberOfText++;
                 }
             }
             if (word != "")
             {
-                if (needIncrementNumber)
+                if (NeedIncrementNumber)
                     numberOfText++;
 
                 output.Add(new Text(word, numberOfText));
             }
-            
+
+
+
+
             return true;
         }
     }
