@@ -1,0 +1,2 @@
+# Words		Negative	Positive	
+принцперсии	3,00000		1,00000		

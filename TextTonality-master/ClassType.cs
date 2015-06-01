@@ -10,7 +10,7 @@ namespace TextTonality
     // todo: переписать enum (на список) и класс, что бы можно было добавлять любое количество классов
     public enum ClassTypeValue
     {
-        Unknown = -1, 
+        Unknown =  -1, 
         Negative = 0,
         Positive = 1
     };
@@ -29,6 +29,7 @@ namespace TextTonality
         //public static readonly int Unknown = -1;
         //public static readonly int Negative = 0;
         //public static readonly int Positive = 1;
+
 
         public static string ToString(int value)
         {
