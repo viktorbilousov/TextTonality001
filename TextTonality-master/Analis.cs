@@ -37,6 +37,7 @@ namespace TextTonality
         }
         public static void StartCulcDic(string pos, string neg)
         {
+            Dictinary.Clear();
             //Dictinary = new DictinaryAttribute(true);
             Dictinary.BildNewDictinary(
                new[]
@@ -56,12 +57,14 @@ namespace TextTonality
 
         public static void LoadAndCulcTextDict(string text)
         {
+            Text.Clear();
            // Text = new DictinaryAttribute(false);
             Text.LoadTextToRecognition(
               new[]
                 {
                     text
                 });
+            test.ClearAllVectors();
             test.LoadVectorsFromAttribures(Text);
             // тестить
             //if(Dictinary != null)
@@ -74,7 +77,7 @@ namespace TextTonality
         {
             if( Dictinary == null)
                 Dictinary = new DictinaryAttribute(true);
-
+            Dictinary.Clear();
             Dictinary.LoadDictinaryFromFile(pathToDic);
             isReadyToTrain = true;
         }
@@ -86,7 +89,7 @@ namespace TextTonality
 
         public static void SaveModelSVM(string pathSaveModel)
         {
-            Model.Write(pathSaveModel, model);
+          //  Model.Write(pathSaveModel, model);
 
         }
 
@@ -98,10 +101,16 @@ namespace TextTonality
 
         }
 
+        public static void LoadSVM(string path)
+        {
+            Model.Read(path);
+        }
 
         public static void LoadText(string text)
         {
+            Text.Clear();
             Text.LoadText(text);
+            test.ClearAllVectors();
             test.LoadVectorsFromAttribures(Text);
             isReadyToTest = true;
         }

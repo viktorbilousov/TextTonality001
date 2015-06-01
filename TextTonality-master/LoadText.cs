@@ -19,6 +19,7 @@ namespace TextTonality
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.ShowDialog();
             PathToFile.PathToTestText = dialog.FileName;

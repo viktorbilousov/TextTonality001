@@ -671,7 +671,14 @@ namespace TextTonality
             
 
         }
-        
+
+        public void Clear()
+        {
+            _attributeslList.Clear();
+            _TextType.Clear();
+          //  _isTraning = true;
+        }
     }
+
 
 }

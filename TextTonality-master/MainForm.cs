@@ -17,6 +17,7 @@ namespace TextTonality
     {
         private AddDictForm addDictForm;
         private LoadText loadText;
+        private MashineForm mashineForm;
         
         public MainForm()
         {
@@ -95,16 +96,10 @@ namespace TextTonality
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ConsoleText.WriteLine("Start Train");
 
-            if (Analis.IsReadyToTrain)
-                Analis.StartTrain();
-            else
-            {
-                ConsoleText.WriteLine("Error Dict");
-                return;
-            }
-            ConsoleText.WriteLine("Train Ok");
+            mashineForm = new MashineForm();
+            mashineForm.Show();
+           
 
         }
 
@@ -148,6 +143,8 @@ namespace TextTonality
         public static string PathToTestText;
         public static string PathToSaveDictinary;
         public static string PathToDictionary;
+        public static string PathToSaveSVM;
+
         
     }
 }

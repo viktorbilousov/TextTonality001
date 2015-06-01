@@ -50,6 +50,7 @@ namespace TextTonality
                 ConsoleText.WriteLine("Error path");
                 return;
             }
+            
             Analis.StartCulcDic(PathToFile.PathToPositiveText, PathToFile.PathToNegativeText);
             Analis.SaveDic(PathToFile.PathToSaveDictinary);
         }
